@@ -27,7 +27,10 @@ func TestNewGrid(t *testing.T) {
 		g, _, _ = life.NewGrid(4)
 
 		if _, ok := g.(life.CellTester); !ok {
-			t.Errorf("expected Grid to implement 'CellTester'm got %T", g)
+			t.Errorf("expected Grid to implement 'CellTester', got %T", g)
+		}
+		if _, ok := g.(life.CellSetter); !ok {
+			t.Errorf("expected Grid to implement 'CellSetter', got %T", g)
 		}
 	})
 	t.Run("make sure the grid reports missing on invalid point call", func(t *testing.T) {
@@ -35,6 +38,16 @@ func TestNewGrid(t *testing.T) {
 
 		if _, ok := g.IsAlive(life.Point{5, 5}); ok {
 			t.Errorf("expected Grid to implement 'CellTester'm got %T", g)
+		}
+	})
+	t.Run("SetCell must work and actually set a cell", func(t *testing.T) {
+		g, _, _ := life.NewGrid(4)
+
+		if err := g.SetCell(life.Point{1, 1}, life.Cell{true}); err != nil {
+			t.Errorf("SetCell cannot return an error but instead got %s", err)
+		}
+		if l, ok := g.IsAlive(life.Point{1, 1}); !ok || !l {
+			t.Errorf("the cell at point %v should be alive, it is not", life.Point{1, 1})
 		}
 	})
 }

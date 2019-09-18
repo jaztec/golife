@@ -86,7 +86,7 @@ func TestSiblings(t *testing.T) {
 	}
 	t.Run("test siblings alive", func(t *testing.T) {
 		for _, tc := range grids {
-			g := &Grid{tc.cells}
+			g := &Grid{set: tc.cells}
 			c := tc.cells[testPoint]
 			got := SiblingsAlive(testPoint, c, g)
 			if got != tc.alive {
@@ -96,7 +96,7 @@ func TestSiblings(t *testing.T) {
 	})
 	t.Run("test set cell state", func(t *testing.T) {
 		for _, tc := range grids {
-			g := &Grid{tc.cells}
+			g := &Grid{set: tc.cells}
 			c := tc.cells[testPoint]
 
 			c = SetCellState(testPoint, c, g)

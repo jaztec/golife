@@ -39,17 +39,30 @@ func SetCellState(p Point, c Cell, ct CellTester) Cell {
 func NewGrid(count int32) (*Grid, int32, error) {
 	bound := int32(math.Floor(math.Sqrt(float64(count))))
 
-	return &Grid{generateEmptyMap(bound, bound)}, int32(math.Pow(float64(bound), 2.0)), nil
+	return &Grid{set: generateEmptyMap(bound, bound)}, int32(math.Pow(float64(bound), 2.0)), nil
 }
 
 // IsAlive returns whether a cell at a certain point is alive
 // or dead. The function will return false if the cell does
 // not exist as well as the existance
 func (g *Grid) IsAlive(p Point) (bool, bool) {
+	g.lock.RLock()
+	defer g.lock.RUnlock()
 	if c, ok := g.set[p]; ok {
 		return c.Alive, ok
 	}
 	return false, false
+}
+
+// SetCell replaces a cell at a certain position with an updated
+// one
+func (g *Grid) SetCell(p Point, c Cell) error {
+	g.lock.Lock()
+	defer g.lock.Unlock()
+
+	g.set[p] = c
+
+	return nil
 }
 
 func generateEmptyMap(x, y int32) map[Point]Cell {

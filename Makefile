@@ -18,7 +18,8 @@ LDFLAGS=-v -ldflags "-X=main.Version=$(VERSION) -X=main.Build=$(BUILD)"
 
 all: suite 
 
-suite: test cover bench ## Run all tests
+full-suite: test cover bench ## Run all tests
+fast-suite: test cover ## Just test the lib and generate coverage
 
 lint: ## Lint the files
 	@printf "\033[36m%-30s\033[0m\n" "Lint source code"
