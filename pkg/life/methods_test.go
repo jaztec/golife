@@ -63,24 +63,37 @@ func TestSiblings(t *testing.T) {
 		alive int
 		cells map[Point]Cell
 	}
-	grids := make([]tC, 4)
-	for i := 0; i < 4; i++ {
-		tc := tC{alive: i, cells: make(map[Point]Cell, 4)}
+	testPoint := Point{1, 1}
+	grids := make([]tC, 8)
+	for i := 0; i < 8; i++ {
+		tc := tC{alive: i, cells: make(map[Point]Cell, 9)}
+		tc.cells[testPoint] = Cell{testPoint, false}
+
+		// generate some cell values
 		var p Point
 		p = Point{0, 0}
-		tc.cells[p] = Cell{p, false}
-		p = Point{1, 0}
 		tc.cells[p] = Cell{p, isAlive(1, i)}
 		p = Point{0, 1}
 		tc.cells[p] = Cell{p, isAlive(2, i)}
-		p = Point{1, 1}
+		p = Point{0, 2}
 		tc.cells[p] = Cell{p, isAlive(3, i)}
+		p = Point{1, 0}
+		tc.cells[p] = Cell{p, isAlive(4, i)}
+		p = Point{1, 2}
+		tc.cells[p] = Cell{p, isAlive(5, i)}
+		p = Point{2, 0}
+		tc.cells[p] = Cell{p, isAlive(6, i)}
+		p = Point{2, 1}
+		tc.cells[p] = Cell{p, isAlive(7, i)}
+		p = Point{2, 2}
+		tc.cells[p] = Cell{p, isAlive(8, i)}
+
 		grids[i] = tc
 	}
 	t.Run("test siblings alive", func(t *testing.T) {
 		for _, tc := range grids {
 			g := &Grid{tc.cells}
-			c := tc.cells[Point{0, 0}]
+			c := tc.cells[testPoint]
 			got := SiblingsAlive(c, g)
 			if got != tc.alive {
 				t.Errorf("expected %d cells to be alive but found %d", tc.alive, got)
@@ -90,13 +103,13 @@ func TestSiblings(t *testing.T) {
 	t.Run("test set cell state", func(t *testing.T) {
 		for _, tc := range grids {
 			g := &Grid{tc.cells}
-			c := tc.cells[Point{0, 0}]
+			c := tc.cells[testPoint]
 
 			c = SetCellState(c, g)
-			if tc.alive < 2 && c.Alive {
+			if (tc.alive < 2 || tc.alive > 3) && c.Alive {
 				t.Errorf("expected cell to be dead with %d life siblings but it lives", tc.alive)
 			}
-			if tc.alive > 2 && !c.Alive {
+			if tc.alive > 2 && tc.alive < 4 && !c.Alive {
 				t.Errorf("expected cell to be alive with %d life siblings but it is not", tc.alive)
 			}
 		}
