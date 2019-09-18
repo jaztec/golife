@@ -10,11 +10,11 @@ lint: ## Lint the files
 	@golint ./...
 	@printf "done\n"
 
-bench: lint ## Run the benchmarks
+bench: ## Run the benchmarks
 	@printf "\033[36m%-30s\033[0m\n" "Run benchmarks"
 	@go test ./... -bench=. -benchmem
 
-test: lint ## Test the library
+test: ## Test the library
 	@printf "\033[36m%-30s\033[0m\n" "Perform covered tests"
 	@go test -race ./... -coverprofile artifacts/cover.out
 
