@@ -16,6 +16,7 @@ bench: ## Run the benchmarks
 
 test: ## Test the library
 	@printf "\033[36m%-30s\033[0m\n" "Perform covered tests"
+	@mkdir -p artifacts
 	@go test -race ./... -coverprofile artifacts/cover.out
 
 cover: test ## Generate coverage
