@@ -10,7 +10,7 @@ type CellTester interface {
 
 // SiblingsAlive returns the count of siblings to a cell
 // that are currently marked alive.
-func SiblingsAlive(c Cell, ct CellTester) int {
+func SiblingsAlive(p Point, c Cell, ct CellTester) int {
 	var i int
 
 	for x := -1; x < 2; x++ {
@@ -18,8 +18,8 @@ func SiblingsAlive(c Cell, ct CellTester) int {
 			if x == 0 && y == 0 {
 				continue
 			}
-			p := Point{X: c.X + int32(x), Y: c.Y + int32(y)}
-			if ct.IsAlive(p) {
+			p2 := Point{X: p.X + int32(x), Y: p.Y + int32(y)}
+			if ct.IsAlive(p2) {
 				i++
 			}
 		}
@@ -29,8 +29,8 @@ func SiblingsAlive(c Cell, ct CellTester) int {
 }
 
 // SetCellState sets the life state of a Cell
-func SetCellState(c Cell, ct CellTester) Cell {
-	alive := SiblingsAlive(c, ct)
+func SetCellState(p Point, c Cell, ct CellTester) Cell {
+	alive := SiblingsAlive(p, c, ct)
 	if alive > 3 {
 		c.Alive = false
 	} else if alive == 3 {
@@ -48,7 +48,6 @@ type Point struct {
 
 // Cell represents a cell on the Game of Life board
 type Cell struct {
-	Point
 	Alive bool
 }
 
@@ -81,8 +80,7 @@ func generateEmptyMap(x, y int32) map[Point]Cell {
 
 	for i = 0; i < x; i++ {
 		for j = 0; j < y; j++ {
-			p := Point{i, j}
-			m[p] = Cell{p, false}
+			m[Point{i, j}] = Cell{}
 		}
 	}
 

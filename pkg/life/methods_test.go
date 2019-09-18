@@ -67,26 +67,17 @@ func TestSiblings(t *testing.T) {
 	grids := make([]tC, 8)
 	for i := 0; i < 8; i++ {
 		tc := tC{alive: i, cells: make(map[Point]Cell, 9)}
-		tc.cells[testPoint] = Cell{testPoint, false}
+		tc.cells[testPoint] = Cell{false}
 
 		// generate some cell values
-		var p Point
-		p = Point{0, 0}
-		tc.cells[p] = Cell{p, isAlive(1, i)}
-		p = Point{0, 1}
-		tc.cells[p] = Cell{p, isAlive(2, i)}
-		p = Point{0, 2}
-		tc.cells[p] = Cell{p, isAlive(3, i)}
-		p = Point{1, 0}
-		tc.cells[p] = Cell{p, isAlive(4, i)}
-		p = Point{1, 2}
-		tc.cells[p] = Cell{p, isAlive(5, i)}
-		p = Point{2, 0}
-		tc.cells[p] = Cell{p, isAlive(6, i)}
-		p = Point{2, 1}
-		tc.cells[p] = Cell{p, isAlive(7, i)}
-		p = Point{2, 2}
-		tc.cells[p] = Cell{p, isAlive(8, i)}
+		tc.cells[Point{0, 0}] = Cell{isAlive(1, i)}
+		tc.cells[Point{0, 1}] = Cell{isAlive(2, i)}
+		tc.cells[Point{0, 2}] = Cell{isAlive(3, i)}
+		tc.cells[Point{1, 0}] = Cell{isAlive(4, i)}
+		tc.cells[Point{1, 2}] = Cell{isAlive(5, i)}
+		tc.cells[Point{2, 0}] = Cell{isAlive(6, i)}
+		tc.cells[Point{2, 1}] = Cell{isAlive(7, i)}
+		tc.cells[Point{2, 2}] = Cell{isAlive(8, i)}
 
 		grids[i] = tc
 	}
@@ -94,7 +85,7 @@ func TestSiblings(t *testing.T) {
 		for _, tc := range grids {
 			g := &Grid{tc.cells}
 			c := tc.cells[testPoint]
-			got := SiblingsAlive(c, g)
+			got := SiblingsAlive(testPoint, c, g)
 			if got != tc.alive {
 				t.Errorf("expected %d cells to be alive but found %d", tc.alive, got)
 			}
@@ -105,7 +96,7 @@ func TestSiblings(t *testing.T) {
 			g := &Grid{tc.cells}
 			c := tc.cells[testPoint]
 
-			c = SetCellState(c, g)
+			c = SetCellState(testPoint, c, g)
 			if (tc.alive < 2 || tc.alive > 3) && c.Alive {
 				t.Errorf("expected cell to be dead with %d life siblings but it lives", tc.alive)
 			}
@@ -137,27 +128,27 @@ func BenchmarkGenerateEmptyMap10(b *testing.B) {
 func BenchmarkSiblingsAlive16(b *testing.B) {
 	g, _ := NewGrid(16)
 	for n := 0; n < b.N; n++ {
-		SiblingsAlive(Cell{Point{1, 1}, false}, g)
+		SiblingsAlive(Point{1, 1}, Cell{false}, g)
 	}
 }
 
 func BenchmarkSiblingsAlive1000(b *testing.B) {
 	g, _ := NewGrid(1000)
 	for n := 0; n < b.N; n++ {
-		SiblingsAlive(Cell{Point{1, 1}, false}, g)
+		SiblingsAlive(Point{1, 1}, Cell{false}, g)
 	}
 }
 
 func BenchmarkSetCellState16(b *testing.B) {
 	g, _ := NewGrid(16)
 	for n := 0; n < b.N; n++ {
-		SetCellState(Cell{Point{1, 1}, false}, g)
+		SetCellState(Point{1, 1}, Cell{false}, g)
 	}
 }
 
 func BenchmarkSetCellState1000(b *testing.B) {
 	g, _ := NewGrid(1000)
 	for n := 0; n < b.N; n++ {
-		SetCellState(Cell{Point{1, 1}, false}, g)
+		SetCellState(Point{1, 1}, Cell{false}, g)
 	}
 }
