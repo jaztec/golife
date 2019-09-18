@@ -13,7 +13,7 @@ func SiblingsAlive(p Point, c Cell, ct CellTester) int {
 				continue
 			}
 			p2 := Point{X: p.X + int32(x), Y: p.Y + int32(y)}
-			if ct.IsAlive(p2) {
+			if a, _ := ct.IsAlive(p2); a == true {
 				i++
 			}
 		}
@@ -36,20 +36,20 @@ func SetCellState(p Point, c Cell, ct CellTester) Cell {
 }
 
 // NewGrid returns a new grid object
-func NewGrid(count int32) (*Grid, int32) {
+func NewGrid(count int32) (*Grid, int32, error) {
 	bound := int32(math.Floor(math.Sqrt(float64(count))))
 
-	return &Grid{generateEmptyMap(bound, bound)}, int32(math.Pow(float64(bound), 2.0))
+	return &Grid{generateEmptyMap(bound, bound)}, int32(math.Pow(float64(bound), 2.0)), nil
 }
 
 // IsAlive returns whether a cell at a certain point is alive
 // or dead. The function will return false if the cell does
 // not exist as well as the existance
-func (g *Grid) IsAlive(p Point) bool {
+func (g *Grid) IsAlive(p Point) (bool, bool) {
 	if c, ok := g.set[p]; ok {
-		return c.Alive
+		return c.Alive, ok
 	}
-	return false
+	return false, false
 }
 
 func generateEmptyMap(x, y int32) map[Point]Cell {

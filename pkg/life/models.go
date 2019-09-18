@@ -9,7 +9,7 @@ type Simulator interface {
 // CellTester exposes a read-only function to check the state of
 // a cell at a certain position.
 type CellTester interface {
-	IsAlive(Point) bool
+	IsAlive(Point) (alive bool, exists bool)
 }
 
 // Point holds the position of a Cell as well as its key

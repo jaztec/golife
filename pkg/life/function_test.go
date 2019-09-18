@@ -8,7 +8,7 @@ func TestGrid(t *testing.T) {
 	t.Run("create new grid", func(t *testing.T) {
 		var expect int32 = 196
 		t.Run("test exact number of cells", func(t *testing.T) {
-			g, got := NewGrid(expect)
+			g, got, _ := NewGrid(expect)
 
 			if got != expect {
 				t.Errorf("expected %d cells but %d where created", expect, got)
@@ -19,7 +19,7 @@ func TestGrid(t *testing.T) {
 			}
 		})
 		t.Run("test calculated number of cells", func(t *testing.T) {
-			g, got := NewGrid(200)
+			g, got, _ := NewGrid(200)
 
 			if got != expect {
 				t.Errorf("expected %d cells but %d where created", expect, got)
@@ -31,7 +31,7 @@ func TestGrid(t *testing.T) {
 		})
 	})
 	t.Run("test grid coords", func(t *testing.T) {
-		g, _ := NewGrid(196)
+		g, _, _ := NewGrid(196)
 		coords := []Point{
 			{0, 0},
 			{2, 13},
@@ -48,7 +48,7 @@ func TestGrid(t *testing.T) {
 			if _, ok := g.set[p]; !ok {
 				t.Errorf("a Point was expected at position %v, none found", p)
 			}
-			if g.IsAlive(p) {
+			if l, _ := g.IsAlive(p); l == true {
 				t.Errorf("the point at position %v shoould not be alive", p)
 			}
 		}
