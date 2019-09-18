@@ -102,3 +102,49 @@ func TestSiblings(t *testing.T) {
 		}
 	})
 }
+
+func BenchmarkGenerateEmptyMap1000(b *testing.B) {
+	for n := 0; n < b.N; n++ {
+		generateEmptyMap(1000, 1000)
+	}
+}
+
+func BenchmarkGenerateEmptyMap100(b *testing.B) {
+	for n := 0; n < b.N; n++ {
+		generateEmptyMap(100, 100)
+	}
+}
+
+func BenchmarkGenerateEmptyMap10(b *testing.B) {
+	for n := 0; n < b.N; n++ {
+		generateEmptyMap(10, 10)
+	}
+}
+
+func BenchmarkSiblingsAlive16(b *testing.B) {
+	g, _ := NewGrid(16)
+	for n := 0; n < b.N; n++ {
+		SiblingsAlive(Cell{Point{1, 1}, false}, g)
+	}
+}
+
+func BenchmarkSiblingsAlive1000(b *testing.B) {
+	g, _ := NewGrid(1000)
+	for n := 0; n < b.N; n++ {
+		SiblingsAlive(Cell{Point{1, 1}, false}, g)
+	}
+}
+
+func BenchmarkSetCellState16(b *testing.B) {
+	g, _ := NewGrid(16)
+	for n := 0; n < b.N; n++ {
+		SetCellState(Cell{Point{1, 1}, false}, g)
+	}
+}
+
+func BenchmarkSetCellState1000(b *testing.B) {
+	g, _ := NewGrid(1000)
+	for n := 0; n < b.N; n++ {
+		SetCellState(Cell{Point{1, 1}, false}, g)
+	}
+}
