@@ -48,11 +48,14 @@ func TestGrid(t *testing.T) {
 			if _, ok := g.set[p]; !ok {
 				t.Errorf("a Point was expected at position %v, none found", p)
 			}
+			if g.IsAlive(p) {
+				t.Errorf("the point at position %v shoould not be alive", p)
+			}
 		}
 	})
 }
 
-func isAlive(i, x int) bool {
+func setAlive(i, x int) bool {
 	if i <= x {
 		return true
 	}
@@ -70,14 +73,14 @@ func TestSiblings(t *testing.T) {
 		tc.cells[testPoint] = Cell{false}
 
 		// generate some cell values
-		tc.cells[Point{0, 0}] = Cell{isAlive(1, i)}
-		tc.cells[Point{0, 1}] = Cell{isAlive(2, i)}
-		tc.cells[Point{0, 2}] = Cell{isAlive(3, i)}
-		tc.cells[Point{1, 0}] = Cell{isAlive(4, i)}
-		tc.cells[Point{1, 2}] = Cell{isAlive(5, i)}
-		tc.cells[Point{2, 0}] = Cell{isAlive(6, i)}
-		tc.cells[Point{2, 1}] = Cell{isAlive(7, i)}
-		tc.cells[Point{2, 2}] = Cell{isAlive(8, i)}
+		tc.cells[Point{0, 0}] = Cell{setAlive(1, i)}
+		tc.cells[Point{0, 1}] = Cell{setAlive(2, i)}
+		tc.cells[Point{0, 2}] = Cell{setAlive(3, i)}
+		tc.cells[Point{1, 0}] = Cell{setAlive(4, i)}
+		tc.cells[Point{1, 2}] = Cell{setAlive(5, i)}
+		tc.cells[Point{2, 0}] = Cell{setAlive(6, i)}
+		tc.cells[Point{2, 1}] = Cell{setAlive(7, i)}
+		tc.cells[Point{2, 2}] = Cell{setAlive(8, i)}
 
 		grids[i] = tc
 	}
@@ -107,48 +110,38 @@ func TestSiblings(t *testing.T) {
 	})
 }
 
-func BenchmarkGenerateEmptyMap1000(b *testing.B) {
+func BenchmarkGenerateEmptyMap5000x5000(b *testing.B) {
+	for n := 0; n < b.N; n++ {
+		generateEmptyMap(5000, 5000)
+	}
+}
+
+func BenchmarkGenerateEmptyMap2500x2500(b *testing.B) {
+	for n := 0; n < b.N; n++ {
+		generateEmptyMap(2500, 2500)
+	}
+}
+
+func BenchmarkGenerateEmptyMap2000x2000(b *testing.B) {
+	for n := 0; n < b.N; n++ {
+		generateEmptyMap(2000, 2000)
+	}
+}
+
+func BenchmarkGenerateEmptyMap1000x1000(b *testing.B) {
 	for n := 0; n < b.N; n++ {
 		generateEmptyMap(1000, 1000)
 	}
 }
 
-func BenchmarkGenerateEmptyMap100(b *testing.B) {
+func BenchmarkGenerateEmptyMap100x100(b *testing.B) {
 	for n := 0; n < b.N; n++ {
 		generateEmptyMap(100, 100)
 	}
 }
 
-func BenchmarkGenerateEmptyMap10(b *testing.B) {
+func BenchmarkGenerateEmptyMap10x10(b *testing.B) {
 	for n := 0; n < b.N; n++ {
 		generateEmptyMap(10, 10)
-	}
-}
-
-func BenchmarkSiblingsAlive16(b *testing.B) {
-	g, _ := NewGrid(16)
-	for n := 0; n < b.N; n++ {
-		SiblingsAlive(Point{1, 1}, Cell{false}, g)
-	}
-}
-
-func BenchmarkSiblingsAlive1000(b *testing.B) {
-	g, _ := NewGrid(1000)
-	for n := 0; n < b.N; n++ {
-		SiblingsAlive(Point{1, 1}, Cell{false}, g)
-	}
-}
-
-func BenchmarkSetCellState16(b *testing.B) {
-	g, _ := NewGrid(16)
-	for n := 0; n < b.N; n++ {
-		SetCellState(Point{1, 1}, Cell{false}, g)
-	}
-}
-
-func BenchmarkSetCellState1000(b *testing.B) {
-	g, _ := NewGrid(1000)
-	for n := 0; n < b.N; n++ {
-		SetCellState(Point{1, 1}, Cell{false}, g)
 	}
 }

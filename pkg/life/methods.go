@@ -2,12 +2,6 @@ package life
 
 import "math"
 
-// CellTester exposes a read-only function to check the state of
-// a cell at a certain position.
-type CellTester interface {
-	IsAlive(Point) bool
-}
-
 // SiblingsAlive returns the count of siblings to a cell
 // that are currently marked alive.
 func SiblingsAlive(p Point, c Cell, ct CellTester) int {
@@ -41,36 +35,21 @@ func SetCellState(p Point, c Cell, ct CellTester) Cell {
 	return c
 }
 
-// Point holds the position of a Cell as well as its key
-type Point struct {
-	X, Y int32
-}
-
-// Cell represents a cell on the Game of Life board
-type Cell struct {
-	Alive bool
-}
-
-// Grid represents the Game of Life board
-type Grid struct {
-	set map[Point]Cell
-}
-
-// IsAlive returns whether a cell at a certain point is alive
-// of dead. The function will return false if the cell does
-// not exist
-func (g *Grid) IsAlive(p Point) bool {
-	if c, ok := g.set[p]; ok {
-		return c.Alive
-	}
-	return false
-}
-
 // NewGrid returns a new grid object
 func NewGrid(count int32) (*Grid, int32) {
 	bound := int32(math.Floor(math.Sqrt(float64(count))))
 
 	return &Grid{generateEmptyMap(bound, bound)}, int32(math.Pow(float64(bound), 2.0))
+}
+
+// IsAlive returns whether a cell at a certain point is alive
+// or dead. The function will return false if the cell does
+// not exist as well as the existance
+func (g *Grid) IsAlive(p Point) bool {
+	if c, ok := g.set[p]; ok {
+		return c.Alive
+	}
+	return false
 }
 
 func generateEmptyMap(x, y int32) map[Point]Cell {
