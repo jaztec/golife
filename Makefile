@@ -33,7 +33,7 @@ build: test ## Build the binary file
 bench: lint ## Run the benchmarks
 	@printf "\033[36m%-30s\033[0m\n" "Run benchmarks"
 	@cd pkg/life
-	@go test ./... -race -bench=. -benchmem
+	@go test ./... -bench=. -benchmem
 
 test: lint ## Test the library
 	@printf "\033[36m%-30s\033[0m\n" "Perform covered tests"

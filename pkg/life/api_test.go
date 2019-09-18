@@ -7,7 +7,7 @@ import (
 )
 
 func TestNewGrid(t *testing.T) {
-	var expect int64 = 196
+	var expect int32 = 196
 	t.Run("test exact number of cells", func(t *testing.T) {
 		_, got := life.NewGrid(expect)
 

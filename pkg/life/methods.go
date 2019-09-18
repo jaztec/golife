@@ -18,7 +18,7 @@ func SiblingsAlive(c Cell, ct CellTester) int {
 			if x == 0 && y == 0 {
 				continue
 			}
-			p := Point{X: c.X + int64(x), Y: c.Y + int64(y)}
+			p := Point{X: c.X + int32(x), Y: c.Y + int32(y)}
 			if ct.IsAlive(p) {
 				i++
 			}
@@ -43,7 +43,7 @@ func SetCellState(c Cell, ct CellTester) Cell {
 
 // Point holds the position of a Cell as well as its key
 type Point struct {
-	X, Y int64
+	X, Y int32
 }
 
 // Cell represents a cell on the Game of Life board
@@ -68,14 +68,14 @@ func (g *Grid) IsAlive(p Point) bool {
 }
 
 // NewGrid returns a new grid object
-func NewGrid(count int64) (*Grid, int64) {
-	bound := int64(math.Floor(math.Sqrt(float64(count))))
+func NewGrid(count int32) (*Grid, int32) {
+	bound := int32(math.Floor(math.Sqrt(float64(count))))
 
-	return &Grid{generateEmptyMap(bound, bound)}, int64(math.Pow(float64(bound), 2.0))
+	return &Grid{generateEmptyMap(bound, bound)}, int32(math.Pow(float64(bound), 2.0))
 }
 
-func generateEmptyMap(x, y int64) map[Point]Cell {
-	var i, j int64
+func generateEmptyMap(x, y int32) map[Point]Cell {
+	var i, j int32
 	n := x * y
 	m := make(map[Point]Cell, n)
 
