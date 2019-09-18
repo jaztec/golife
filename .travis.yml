@@ -1,0 +1,18 @@
+language: go
+
+go:
+  - 1.12.x
+  - tip
+
+git:
+  depth: 1
+
+install:
+  - export GOPATH="$HOME/gopath"
+  - go get -v -t -d github.com/jaztec/golife
+
+script:
+  - make
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
