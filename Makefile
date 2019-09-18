@@ -1,20 +1,4 @@
-# Project information
-VERSION? := 0# $(shell git describe --tags)
-BUILD := $(shell git rev-parse --short HEAD)
-PROJECTNAME := $(shell basename "$(PWD)")
-
-# Go build variables
-GOBASE := $(shell pwd)
-GOPATH := $(GOBASE)/vendor:$(GOBASE)
-GOBIN := $(GOBASE)/bin
-GOFILES := $(wildcard *.go)
-
-CMD := $(GOBASE)/cmd
-
-# Linker flags
-LDFLAGS=-v -ldflags "-X=main.Version=$(VERSION) -X=main.Build=$(BUILD)"
-
-.PHONY: all build clean lint
+.PHONY: all lint
 
 all: full-suite 
 
@@ -24,7 +8,7 @@ fast-suite: test cover ## Just test the lib and generate coverage
 lint: ## Lint the files
 	@printf "\033[36m%-30s\033[0m\n" "Lint source code"
 	@golint ./...
-	@echo done
+	@printf "done\n"
 
 bench: lint ## Run the benchmarks
 	@printf "\033[36m%-30s\033[0m\n" "Run benchmarks"
