@@ -52,30 +52,35 @@ func TestNewGrid(t *testing.T) {
 	})
 }
 
+var (
+	bP = golife.Point{1, 1}
+	bC = golife.Cell{false}
+)
+
 func BenchmarkSiblingsAlive16(b *testing.B) {
 	g, _, _ := golife.NewGrid(16)
 	for n := 0; n < b.N; n++ {
-		golife.SiblingsAlive(golife.Point{1, 1}, golife.Cell{false}, g)
+		golife.SiblingsAlive(bP, bC, g)
 	}
 }
 
 func BenchmarkSiblingsAlive1000(b *testing.B) {
 	g, _, _ := golife.NewGrid(1000)
 	for n := 0; n < b.N; n++ {
-		golife.SiblingsAlive(golife.Point{1, 1}, golife.Cell{false}, g)
+		golife.SiblingsAlive(bP, bC, g)
 	}
 }
 
 func BenchmarkSetCellState16(b *testing.B) {
 	g, _, _ := golife.NewGrid(16)
 	for n := 0; n < b.N; n++ {
-		golife.SetCellState(golife.Point{1, 1}, golife.Cell{false}, g)
+		golife.SetCellState(bP, bC, g)
 	}
 }
 
 func BenchmarkSetCellState1000(b *testing.B) {
 	g, _, _ := golife.NewGrid(1000)
 	for n := 0; n < b.N; n++ {
-		golife.SetCellState(golife.Point{1, 1}, golife.Cell{false}, g)
+		golife.SetCellState(bP, bC, g)
 	}
 }
