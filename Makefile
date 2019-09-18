@@ -16,24 +16,18 @@ LDFLAGS=-v -ldflags "-X=main.Version=$(VERSION) -X=main.Build=$(BUILD)"
 
 .PHONY: all build clean lint
 
-all: suite 
+all: full-suite 
 
-full-suite: test cover bench ## Run all tests
+full-suite: fast-suite bench ## Run all tests
 fast-suite: test cover ## Just test the lib and generate coverage
 
 lint: ## Lint the files
 	@printf "\033[36m%-30s\033[0m\n" "Lint source code"
-	@golint pkg/...
-	@golint cmd/...
-
-build: test ## Build the binary file
-	@printf "\033[36m%-30s\033[0m\n" "Build binaries"
-	@mkdir -p ./bin/limbo
-	@GOPATH=$(GOPATH) GOBIN=$(GOBIN) go build $(LDFLAGS) -o $(GOBIN)/limbo/limbo $(CMD)/$(PROJECTNAME)
+	@golint ./...
+	@echo done
 
 bench: lint ## Run the benchmarks
 	@printf "\033[36m%-30s\033[0m\n" "Run benchmarks"
-	@cd pkg/life
 	@go test ./... -bench=. -benchmem
 
 test: lint ## Test the library
@@ -42,6 +36,7 @@ test: lint ## Test the library
 
 cover: test ## Generate coverage
 	@printf "\033[36m%-30s\033[0m\n" "Output coverage"
+	@mkdir -p artifacts
 	@go tool cover -html=artifacts/cover.out -o artifacts/cover.html
 	@go tool cover -func=artifacts/cover.out
 

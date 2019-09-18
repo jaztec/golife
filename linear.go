@@ -1,4 +1,4 @@
-package life
+package golife
 
 type linearSimulator struct {
 	grid *Grid
