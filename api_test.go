@@ -1,6 +1,7 @@
 package golife_test
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/jaztec/golife"
@@ -83,4 +84,16 @@ func BenchmarkSetCellState1000(b *testing.B) {
 	for n := 0; n < b.N; n++ {
 		golife.SetCellState(bP, bC, g)
 	}
+}
+
+func ExampleNewGrid() {
+	g, n, err := golife.NewGrid(200)
+
+	alive, exists := g.IsAlive(golife.Point{10, 10})
+	fmt.Println(alive)  // false
+	fmt.Println(exists) // true
+
+	fmt.Println(n) // 196 cells are created (sqrt(int(200)) * 2)
+
+	fmt.Println(err) // nil
 }
