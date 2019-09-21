@@ -17,7 +17,7 @@ func (bs *linearSimulator) Step() error {
 		return fmt.Errorf("old size %d does not match new size %d", n, bs.Grid().Count())
 	}
 	if err != nil {
-
+		return err
 	}
 	for p, c := range bs.grid.set {
 		g.SetCell(p, SetCellState(p, c, bs.grid))
