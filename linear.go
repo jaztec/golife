@@ -2,7 +2,6 @@ package golife
 
 import (
 	"fmt"
-	"math"
 )
 
 type linearSimulator struct {
@@ -11,8 +10,7 @@ type linearSimulator struct {
 }
 
 func (bs *linearSimulator) Step() error {
-	n := int32(math.Sqrt(float64(bs.grid.Count())))
-	g, n, err := NewGridFromCells(int32(n), int32(n), bs.grid.GetCells())
+	g, n, err := NewGrid(bs.grid.Count())
 	if n != int32(bs.Grid().Count()) {
 		return fmt.Errorf("old size %d does not match new size %d", n, bs.Grid().Count())
 	}

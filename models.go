@@ -46,7 +46,7 @@ type CellGetter interface {
 // internally holds
 type CellCounter interface {
 	// Count returns a the total count of internal cells
-	Count() int
+	Count() int32
 }
 
 // Point holds the position of a Cell as well as its key
