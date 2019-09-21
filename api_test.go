@@ -33,6 +33,12 @@ func TestNewGrid(t *testing.T) {
 		if _, ok := g.(golife.CellSetter); !ok {
 			t.Errorf("expected Grid to implement 'CellSetter', got %T", g)
 		}
+		if _, ok := g.(golife.CellGetter); !ok {
+			t.Errorf("expected Grid to implement 'CellGetter', got %T", g)
+		}
+		if _, ok := g.(golife.CellCounter); !ok {
+			t.Errorf("expected Grid to implement 'CellCounter', got %T", g)
+		}
 	})
 	t.Run("make sure the grid reports missing on invalid point call", func(t *testing.T) {
 		g, _, _ := golife.NewGrid(4)

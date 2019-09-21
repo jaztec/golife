@@ -6,6 +6,8 @@ import (
 
 // Simulator described function needed for a game
 type Simulator interface {
+	// Grid returns the current grid representation
+	Grid() *Grid
 	// SetGrid replaces the grid with which this simulation is working
 	SetGrid(*Grid) error
 	// Step calculates the next state of the internal grid
@@ -29,6 +31,22 @@ type CellSetter interface {
 	// SetCell replaces a cell at a certain position with an updated
 	// one
 	SetCell(Point, Cell) error
+}
+
+// CellGetter defines a function to update a cell inside the
+// struct
+type CellGetter interface {
+	// Cell returns a cell at some point
+	Cell(Point) (Cell, error)
+	// GetCells gets a reference to a cell iterator
+	GetCells() map[Point]Cell
+}
+
+// CellCounter should return the total sum of cells which it
+// internally holds
+type CellCounter interface {
+	// Count returns a the total count of internal cells
+	Count() int
 }
 
 // Point holds the position of a Cell as well as its key

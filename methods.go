@@ -1,6 +1,10 @@
 package golife
 
-import "math"
+import (
+	"errors"
+	"fmt"
+	"math"
+)
 
 // SiblingsAlive returns the count of siblings to a cell
 // that are currently marked alive.
@@ -37,9 +41,19 @@ func SetCellState(p Point, c Cell, ct CellTester) Cell {
 
 // NewGrid returns a new grid object
 func NewGrid(count int32) (*Grid, int32, error) {
+	if count == 0 {
+		return nil, 0, errors.New("a grid with 0 cells does not make sense")
+	}
 	bound := int32(math.Floor(math.Sqrt(float64(count))))
 
 	return &Grid{set: generateEmptyMap(bound, bound)}, int32(math.Pow(float64(bound), 2.0)), nil
+}
+
+// NewGridFromCells returns a new grid object to a certain size and
+// activates the points that are represented in the active slice.
+func NewGridFromCells(x, y int32, cells map[Point]Cell) (*Grid, int32, error) {
+	m := generateEmptyMap(x, y)
+	return &Grid{set: m}, int32(x * y), nil
 }
 
 // IsAlive returns whether a cell at a certain point is alive
@@ -63,6 +77,37 @@ func (g *Grid) SetCell(p Point, c Cell) error {
 	g.set[p] = c
 
 	return nil
+}
+
+// Cell returns a cell at some point
+func (g *Grid) Cell(p Point) (Cell, error) {
+	g.lock.RLock()
+	defer g.lock.RUnlock()
+
+	c, ok := g.set[p]
+	if !ok {
+		return Cell{}, fmt.Errorf("at position %v no cell was found", p)
+	}
+	return c, nil
+}
+
+// GetCells gets a reference to a cell iterator
+func (g *Grid) GetCells() map[Point]Cell {
+	g.lock.RLock()
+	defer g.lock.RUnlock()
+
+	r := make(map[Point]Cell, len(g.set))
+	it := 0
+	for p, c := range g.set {
+		r[p] = c
+		it++
+	}
+	return r
+}
+
+// Count returns the internal number of cells
+func (g *Grid) Count() int {
+	return len(g.set)
 }
 
 func generateEmptyMap(x, y int32) map[Point]Cell {

@@ -29,6 +29,21 @@ func TestGrid(t *testing.T) {
 				t.Errorf("expected %d cells but %d where created", expect, len(g.set))
 			}
 		})
+		t.Run("test zero cells returns error", func(t *testing.T) {
+			g, got, err := NewGrid(0)
+
+			if got != 0 {
+				t.Errorf("expected %d cells but %d where created", 0, got)
+			}
+
+			if g != nil {
+				t.Errorf("no grid should have been returned, received %v", g)
+			}
+
+			if err == nil {
+				t.Error("expected an error to be returned, it did not")
+			}
+		})
 	})
 	t.Run("test grid coords", func(t *testing.T) {
 		g, _, _ := NewGrid(196)
