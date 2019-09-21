@@ -11,7 +11,7 @@ type linearSimulator struct {
 
 func (bs *linearSimulator) Step() error {
 	g, n, err := NewGrid(bs.grid.Count())
-	if n != int32(bs.Grid().Count()) {
+	if n != bs.Grid().Count() {
 		return fmt.Errorf("old size %d does not match new size %d", n, bs.Grid().Count())
 	}
 	if err != nil {
