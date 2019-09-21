@@ -81,14 +81,14 @@ func BenchmarkSiblingsAlive1000(b *testing.B) {
 func BenchmarkSetCellState16(b *testing.B) {
 	g, _, _ := golife.NewGrid(16)
 	for n := 0; n < b.N; n++ {
-		golife.SetCellState(bP, bC, g)
+		golife.GetCellState(bP, bC, g)
 	}
 }
 
 func BenchmarkSetCellState1000(b *testing.B) {
 	g, _, _ := golife.NewGrid(1000)
 	for n := 0; n < b.N; n++ {
-		golife.SetCellState(bP, bC, g)
+		golife.GetCellState(bP, bC, g)
 	}
 }
 

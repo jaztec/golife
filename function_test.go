@@ -114,7 +114,7 @@ func TestSiblings(t *testing.T) {
 			g := &Grid{set: tc.cells}
 			c := tc.cells[testPoint]
 
-			c = SetCellState(testPoint, c, g)
+			c = GetCellState(testPoint, c, g)
 			if (tc.alive < 2 || tc.alive > 3) && c.Alive {
 				t.Errorf("expected cell to be dead with %d life siblings but it lives", tc.alive)
 			}

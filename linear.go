@@ -18,7 +18,7 @@ func (bs *linearSimulator) Step() error {
 		return err
 	}
 	for p, c := range bs.grid.set {
-		g.SetCell(p, SetCellState(p, c, bs.grid))
+		g.SetCell(p, GetCellState(p, c, bs.grid))
 	}
 
 	bs.grid = g

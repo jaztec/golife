@@ -26,8 +26,8 @@ func SiblingsAlive(p Point, c Cell, ct CellTester) int {
 	return i
 }
 
-// SetCellState sets the life state of a Cell
-func SetCellState(p Point, c Cell, ct CellTester) Cell {
+// GetCellState sets the life state of a Cell
+func GetCellState(p Point, c Cell, ct CellTester) Cell {
 	alive := SiblingsAlive(p, c, ct)
 	if alive > 3 {
 		c.Alive = false
