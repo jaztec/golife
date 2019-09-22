@@ -12,7 +12,7 @@ lint: ## Lint the files
 
 bench: ## Run the benchmarks
 	@printf "\033[36m%-30s\033[0m\n" "Run benchmarks"
-	@go test ./... -bench=. -benchmem
+	@go test -bench=. -benchmem
 
 test: ## Test the library
 	@printf "\033[36m%-30s\033[0m\n" "Perform covered tests"

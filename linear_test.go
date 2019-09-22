@@ -97,20 +97,20 @@ func BenchmarkLinearSimulator1000_1(b *testing.B) {
 	}
 }
 
-// func BenchmarkLinearSimulator10000_100(b *testing.B) {
-// 	s, _ := NewLinearSimulator(10000)
-// 	for n := 0; n < b.N; n++ {
-// 		for i := 0; i < 100; i++ {
-// 			s.Step()
-// 		}
-// 	}
-// }
+func BenchmarkLinearSimulator10000_100(b *testing.B) {
+	s, _ := NewLinearSimulator(10000)
+	for n := 0; n < b.N; n++ {
+		for i := 0; i < 100; i++ {
+			s.Step()
+		}
+	}
+}
 
-// func BenchmarkLinearSimulator1000000_100(b *testing.B) {
-// 	s, _ := NewLinearSimulator(1000000)
-// 	for n := 0; n < b.N; n++ {
-// 		for i := 0; i < 100; i++ {
-// 			s.Step()
-// 		}
-// 	}
-// }
+func BenchmarkLinearSimulator1000000_100(b *testing.B) {
+	s, _ := NewLinearSimulator(1000000)
+	for n := 0; n < b.N; n++ {
+		for i := 0; i < 100; i++ {
+			s.Step()
+		}
+	}
+}

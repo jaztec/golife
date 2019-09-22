@@ -12,7 +12,7 @@ install:
   - go get -v -t -d github.com/jaztec/golife
 
 script:
-  - make
+  - make fast-suite
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
