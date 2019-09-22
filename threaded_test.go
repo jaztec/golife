@@ -64,29 +64,36 @@ func BenchmarkThreadedSimulator1000_100(b *testing.B) {
 	}
 }
 
-func BenchmarkThreadedSimulator10000_100(b *testing.B) {
-	s, _ := NewThreadedSimulator(10000, 8)
+func BenchmarkThreadedSimulator1000_1(b *testing.B) {
+	s, _ := NewThreadedSimulator(1000, 8)
 	for n := 0; n < b.N; n++ {
-		for i := 0; i < 100; i++ {
-			s.Step()
-		}
+		s.Step()
 	}
 }
 
-func BenchmarkThreadedSimulator1000000_100(b *testing.B) {
-	s, _ := NewThreadedSimulator(1000000, 8)
-	for n := 0; n < b.N; n++ {
-		for i := 0; i < 100; i++ {
-			s.Step()
-		}
-	}
-}
+// func BenchmarkThreadedSimulator10000_100(b *testing.B) {
+// 	s, _ := NewThreadedSimulator(10000, 8)
+// 	for n := 0; n < b.N; n++ {
+// 		for i := 0; i < 100; i++ {
+// 			s.Step()
+// 		}
+// 	}
+// }
 
-func BenchmarkThreadedSimulator1000000_100x16(b *testing.B) {
-	s, _ := NewThreadedSimulator(1000000, 16)
-	for n := 0; n < b.N; n++ {
-		for i := 0; i < 100; i++ {
-			s.Step()
-		}
-	}
-}
+// func BenchmarkThreadedSimulator1000000_100(b *testing.B) {
+// 	s, _ := NewThreadedSimulator(1000000, 8)
+// 	for n := 0; n < b.N; n++ {
+// 		for i := 0; i < 100; i++ {
+// 			s.Step()
+// 		}
+// 	}
+// }
+
+// func BenchmarkThreadedSimulator1000000_100x16(b *testing.B) {
+// 	s, _ := NewThreadedSimulator(1000000, 16)
+// 	for n := 0; n < b.N; n++ {
+// 		for i := 0; i < 100; i++ {
+// 			s.Step()
+// 		}
+// 	}
+// }
